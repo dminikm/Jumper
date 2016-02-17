@@ -5,6 +5,8 @@
 #include "SDL2/SDL.h"
 #include <iostream>
 #include <string>
+#include "TextureManager.h"
+
 
 #undef main
 
@@ -21,6 +23,7 @@ class CGame
         int winWidth;
         int winHeight; 
         
+        CTextureManager* mainTextureManager;
         
     public:
         CGame();

@@ -1,5 +1,7 @@
 #include "Headers/Game.h"
 
+
+
 CGame::CGame()
 {
     
@@ -27,7 +29,9 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
     {
         return 1;
     }
-        
+    
+    this->mainTextureManager = new CTextureManager(mainGameRenderer);
+    
     return 0;
 }
 
