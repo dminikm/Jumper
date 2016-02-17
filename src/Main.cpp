@@ -1,9 +1,10 @@
-#include <iostream>
-#include <stdio.h>
+#include "Headers/Main.h"
+#include "Headers/Game.h"
 
-#include "Headers\Main.h"
-
-int main()
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello initial commit!" << std::endl;
+    CGame* mainGame = new CGame();
+    mainGame->Init("Fak!", 0x1FFF0000, 0x1FFF0000, 480, 360);
+    mainGame->Run();
+    return 0;
 }

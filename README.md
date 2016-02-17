@@ -1,6 +1,7 @@
 # Jumper
 SDL recreation of my Scratch game i made as a project.
 
+Original game can be found on https://scratch.mit.edu/projects/60612182/.
 
 # License
 This program is free software: you can redistribute it and/or modify
