@@ -46,6 +46,7 @@ SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
         this->textureCatalogueFileNames.push_back(fileName);
         
         SDL_FreeSurface(surfaceBuffer);
+        SDL_DestroyTexture(textureBuffer);
     }
     
     return this->FindTexture(fileName);
@@ -57,6 +58,7 @@ bool CTextureManager::RemoveTexture(std::string fileName)
     int textureID = this->FindTextureID(fileName);
     if ( textureID > -1)
     {
+        SDL_DestroyTexture(this->textureCatalogue[textureID]);
         this->textureCatalogue.erase(this->textureCatalogue.begin() + textureID);
         this->textureCatalogueFileNames.erase(this->textureCatalogueFileNames.begin() + textureID);
     }
@@ -111,4 +113,13 @@ SDL_Texture* CTextureManager::GetTexture(int index)
     {
         return this->textureCatalogue[0];
     }
+}
+
+void CTextureManager::RemoveAllTextures()
+{
+    for (int i = 0; i < this->textureCatalogue.size();i++)
+    {
+        SDL_DestroyTexture(this->textureCatalogue[i]);
+    }
+    this->textureCatalogue.resize(0);
 }

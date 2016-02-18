@@ -25,6 +25,7 @@ class CTextureManager
         SDL_Texture* FindTexture(std::string fileName);
         int FindTextureID(std::string fileName);
         SDL_Texture* GetTexture(int index);
+        void RemoveAllTextures();
 };
 
 #endif
