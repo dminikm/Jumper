@@ -4,7 +4,7 @@
 int main(int argc, char* argv[])
 {
     CGame* mainGame = new CGame();
-    mainGame->Init("Fak!", 0x1FFF0000, 0x1FFF0000, 480, 360);
+    mainGame->Init("Jumper", 0x1FFF0000, 0x1FFF0000, 480, 360);
     mainGame->Run();
     return 0;
 }
