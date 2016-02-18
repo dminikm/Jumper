@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include "TextureManager.h"
+#include "GraphicsManager.h"
 
 
 #undef main
@@ -24,6 +25,7 @@ class CGame
         int winHeight; 
         
         CTextureManager* mainTextureManager;
+        CGraphicsManager* mainGraphicsManager;
         
     public:
         CGame();

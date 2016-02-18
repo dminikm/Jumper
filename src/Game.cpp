@@ -31,6 +31,7 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
     }
     
     this->mainTextureManager = new CTextureManager(mainGameRenderer);
+    this->mainGraphicsManager = new CGraphicsManager(mainGameRenderer);
     
     return 0;
 }
@@ -53,6 +54,8 @@ void CGame::Run()
             this->End();
             break;
         }
+        
+        this->mainGraphicsManager->Draw();
         
         SDL_RenderPresent(this->mainGameRenderer);
     }
