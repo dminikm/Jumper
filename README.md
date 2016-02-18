@@ -1,5 +1,5 @@
 # Jumper
-SDL recreation of my Scratch game i made as a project.
+SDL recreation of my Scratch game i made as a school project.
 
 Original game can be found on https://scratch.mit.edu/projects/60612182/.
 
