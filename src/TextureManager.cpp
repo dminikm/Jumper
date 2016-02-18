@@ -19,15 +19,33 @@ SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
         SDL_Texture* textureBuffer;
         surfaceBuffer = SDL_LoadBMP(fileName.c_str());
         
-        if (surfaceBuffer != NULL)
+        
+        if (surfaceBuffer == NULL)
         {
-            surfaceBuffer = SDL_CreateRGBSurface(0,1,1,32,255,0,0,1);
-        }
-    
-        textureBuffer = SDL_CreateTextureFromSurface(this->mainGameRenderer, surfaceBuffer);
+            Uint32 rmask, gmask, bmask, amask;
+            #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+                rmask = 0xff000000;
+                gmask = 0x00ff0000;
+                bmask = 0x0000ff00;
+                amask = 0x000000ff;
+            #else
+                rmask = 0x000000ff;
+                gmask = 0x0000ff00;
+                bmask = 0x00ff0000;
+                amask = 0xff000000;
+            #endif
             
+            surfaceBuffer = SDL_CreateRGBSurface(0,1,1,32,rmask,gmask,bmask,amask);
+            SDL_FillRect(surfaceBuffer, NULL, SDL_MapRGB(surfaceBuffer->format, 255, 0, 0));
+        }
+        
+        
+        textureBuffer = SDL_CreateTextureFromSurface(this->mainGameRenderer, surfaceBuffer);
+           
         this->textureCatalogue.push_back(textureBuffer);
         this->textureCatalogueFileNames.push_back(fileName);
+        
+        SDL_FreeSurface(surfaceBuffer);
     }
     
     return this->FindTexture(fileName);
