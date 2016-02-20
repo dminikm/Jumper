@@ -40,13 +40,12 @@ SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
         }
         
         
+        
         textureBuffer = SDL_CreateTextureFromSurface(this->mainGameRenderer, surfaceBuffer);
-           
         this->textureCatalogue.push_back(textureBuffer);
         this->textureCatalogueFileNames.push_back(fileName);
         
         SDL_FreeSurface(surfaceBuffer);
-        SDL_DestroyTexture(textureBuffer);
     }
     
     return this->FindTexture(fileName);

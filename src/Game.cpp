@@ -31,7 +31,9 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
     }
     
     this->mainTextureManager = new CTextureManager(mainGameRenderer);
-    this->mainGraphicsManager = new CGraphicsManager(mainGameRenderer);
+    this->mainGraphicsManager = new CGraphicsManager(mainGameRenderer, mainGameWindow);
+    
+    this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
     
     return 0;
 }
@@ -56,7 +58,6 @@ void CGame::Run()
         }
         
         this->mainGraphicsManager->Draw();
-        
         SDL_RenderPresent(this->mainGameRenderer);
     }
 }
