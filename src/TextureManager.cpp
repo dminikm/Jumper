@@ -39,7 +39,7 @@ SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
             SDL_FillRect(surfaceBuffer, NULL, SDL_MapRGB(surfaceBuffer->format, 255, 0, 0));
         }
         
-        
+        SDL_SetColorKey(surfaceBuffer, SDL_TRUE, SDL_MapRGB(surfaceBuffer->format, 255, 255, 255));
         
         textureBuffer = SDL_CreateTextureFromSurface(this->mainGameRenderer, surfaceBuffer);
         this->textureCatalogue.push_back(textureBuffer);

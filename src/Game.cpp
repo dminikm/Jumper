@@ -1,7 +1,5 @@
 #include "Headers/Game.h"
 
-
-
 CGame::CGame()
 {
     
@@ -30,8 +28,9 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
         return 1;
     }
     
-    this->mainTextureManager = new CTextureManager(mainGameRenderer);
-    this->mainGraphicsManager = new CGraphicsManager(mainGameRenderer, mainGameWindow);
+    this->mainTextureManager = new CTextureManager(this->mainGameRenderer);
+    this->mainGraphicsManager = new CGraphicsManager(this->mainGameRenderer, this->mainGameWindow);
+    this->mainPlatformManager = new CPlatformManager(this->mainGraphicsManager);
     
     this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
     
@@ -46,9 +45,13 @@ void CGame::End()
 }
 
 void CGame::Run()
-{
+{  
     while (true)
     {
+        this->deltaNow = SDL_GetTicks();
+        this->delta = (double)(((double)this->deltaNow - (double)this->deltaLast) / 1000);
+        this->deltaLast = this->deltaNow;
+        
         SDL_RenderClear(this->mainGameRenderer);
         SDL_PollEvent(&this->mainGameEvent);
         if (this->mainGameEvent.type == SDL_QUIT)
@@ -57,7 +60,11 @@ void CGame::Run()
             break;
         }
         
+        this->mainPlatformManager->Update(this->delta);
+        this->mainPlatformManager->Draw();
+        
         this->mainGraphicsManager->Draw();
+        this->mainGraphicsManager->ClearRenderCatalogue();
         SDL_RenderPresent(this->mainGameRenderer);
     }
 }

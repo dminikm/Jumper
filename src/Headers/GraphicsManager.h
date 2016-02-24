@@ -33,6 +33,7 @@ class CGraphicsManager
         
         void Draw();
         
-        
+        SDL_Renderer* GetRenderer();
+        SDL_Window* GetWindow();
 };
 #endif

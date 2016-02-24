@@ -7,6 +7,7 @@
 #include <string>
 #include "TextureManager.h"
 #include "GraphicsManager.h"
+#include "PlatformManager.h"
 
 
 #undef main
@@ -26,6 +27,11 @@ class CGame
         
         CTextureManager* mainTextureManager;
         CGraphicsManager* mainGraphicsManager;
+        CPlatformManager* mainPlatformManager;
+        
+        unsigned int deltaLast = 0;
+        unsigned int deltaNow = 0;
+        double delta = 0;
         
     public:
         CGame();

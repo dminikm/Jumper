@@ -67,3 +67,13 @@ void CGraphicsManager::SetBackground(SDL_Texture* texture, bool fit, double angl
     this->background.flip = flip;
     this->background.angle = angle;
 }
+
+SDL_Renderer* CGraphicsManager::GetRenderer()
+{
+    return this->mainGameRenderer;
+}
+
+SDL_Window* CGraphicsManager::GetWindow()
+{
+    return this->mainGameWindow;
+}
