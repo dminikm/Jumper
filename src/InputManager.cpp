@@ -82,5 +82,5 @@ Uint8 CInputManager::GetMouseUp()
 
 void GetMousePos(int* x, int* y)
 {
-    SDL_GetMouseState(&x, &y);
+    SDL_GetMouseState(x, y);
 }
