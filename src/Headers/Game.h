@@ -11,13 +11,7 @@
 #include "TextureManager.h"
 #include "GraphicsManager.h"
 #include "PlatformManager.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "InputManager.h"
-=======
->>>>>>> a0740abe57096b8f50acb49e7ba0cc21cbfdc3c6
-=======
->>>>>>> a0740abe57096b8f50acb49e7ba0cc21cbfdc3c6
 
 
 #undef main
@@ -38,21 +32,7 @@ class CGame
         CTextureManager* mainTextureManager;
         CGraphicsManager* mainGraphicsManager;
         CPlatformManager* mainPlatformManager;
-<<<<<<< HEAD
-<<<<<<< HEAD
         CInputManager* mainInputManager;
-=======
-=======
-        
-        unsigned int deltaLast = 0;
-        unsigned int deltaNow = 0;
-        double delta = 0;
->>>>>>> a0740abe57096b8f50acb49e7ba0cc21cbfdc3c6
-        
-        unsigned int deltaLast = 0;
-        unsigned int deltaNow = 0;
-        double delta = 0;
->>>>>>> a0740abe57096b8f50acb49e7ba0cc21cbfdc3c6
         
         unsigned int deltaLast = 0;
         unsigned int deltaNow = 0;
