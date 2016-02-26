@@ -12,6 +12,7 @@
 #include "GraphicsManager.h"
 #include "PlatformManager.h"
 #include "InputManager.h"
+#include "RandomGenerator.h"
 
 
 #undef main
@@ -33,6 +34,7 @@ class CGame
         CGraphicsManager* mainGraphicsManager;
         CPlatformManager* mainPlatformManager;
         CInputManager* mainInputManager;
+        CRandomGenerator* mainRandomGenerator;
         
         unsigned int deltaLast = 0;
         unsigned int deltaNow = 0;

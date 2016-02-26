@@ -56,7 +56,7 @@ bool CInputManager::IsMouseUp(Uint8 button)
     return (this->mainGameEvent->type == SDL_MOUSEBUTTONUP && this->mainGameEvent->button.button == button);
 }
 
-Uint8 CInputManager::GetMouseDown()
+Uint8 CInputManager::GetMousePressed()
 {
     if (this->mainGameEvent->type == SDL_MOUSEBUTTONDOWN)
     {
@@ -68,7 +68,7 @@ Uint8 CInputManager::GetMouseDown()
     }
 }
 
-Uint8 CInputManager::GetMouseUp()
+Uint8 CInputManager::GetMouseReleased()
 {
     if (this->mainGameEvent->type == SDL_MOUSEBUTTONUP)
     {

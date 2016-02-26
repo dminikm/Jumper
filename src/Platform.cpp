@@ -1,6 +1,6 @@
 #include "Headers/Platform.h"
 
-CPlatform::CPlatform(SDL_Texture* texture, double x, double y, double w, double h)
+CPlatform::CPlatform(SDL_Texture* texture, double x, double y, double w, double h, CRandomGenerator* randomGenerator)
 {
     this->x = x;
     this->y = y;
@@ -8,11 +8,7 @@ CPlatform::CPlatform(SDL_Texture* texture, double x, double y, double w, double 
     this->h = h;
     this->texture = texture;
     
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> uni(20,45);
-    
-    this->velocity = uni(rng);
+    this->velocity = randomGenerator->GetRandomBetween(30, 40);
 }
 
 CPlatform::~CPlatform()

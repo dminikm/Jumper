@@ -1,9 +1,10 @@
 #include "Headers/GraphicsManager.h"
 
-CGraphicsManager::CGraphicsManager(SDL_Renderer* renderer, SDL_Window* window)
+CGraphicsManager::CGraphicsManager(SDL_Renderer* renderer, SDL_Window* window, CTextureManager* textureManager)
 {
     this->mainGameRenderer = renderer;
     this->mainGameWindow = window;
+    this->mainTextureManager = textureManager;
 }
 
 CGraphicsManager::~CGraphicsManager()
@@ -76,4 +77,9 @@ SDL_Renderer* CGraphicsManager::GetRenderer()
 SDL_Window* CGraphicsManager::GetWindow()
 {
     return this->mainGameWindow;
+}
+
+CTextureManager* CGraphicsManager::GetTextureManager()
+{
+    return this->mainTextureManager;
 }

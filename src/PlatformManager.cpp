@@ -1,8 +1,14 @@
 #include "Headers/PlatformManager.h"
 
-CPlatformManager::CPlatformManager(CGraphicsManager* graphicsManager)
+CPlatformManager::CPlatformManager(CGraphicsManager* graphicsManager, CRandomGenerator* randomGenerator, int maxAmount, double time)
 {
     this->mainGraphicsManager = graphicsManager;
+    this->mainRandomGenerator = randomGenerator;
+    this->maxPlatforms = maxAmount;
+    this->platformSpawnTime = time;
+    this->platformSpawnCounter = 0;
+    
+    SDL_GetWindowSize(this->mainGraphicsManager->GetWindow(), &this->screenW, &this->screenH);
 }
 
 CPlatformManager::~CPlatformManager()
@@ -15,11 +21,22 @@ CPlatformManager::~CPlatformManager()
 
 void CPlatformManager::CreatePlatform(SDL_Texture* texture, double x, double y, double w, double h)
 {
-    CPlatform* platform = new CPlatform(texture, x, y, w, h);
+    CPlatform* platform = new CPlatform(texture, x, y, w, h, this->mainRandomGenerator);
     platformCatalogue.push_back(platform);
 }
 
 void CPlatformManager::Update(double delta)
+{
+    this->UpdatePlatforms(delta);
+    this->platformSpawnCounter += delta;
+    if (this->platformSpawnCounter >= this->platformSpawnTime && this->platformCatalogue.size() < this->maxPlatforms)
+    {
+        this->CreatePlatform(this->mainGraphicsManager->GetTextureManager()->CreateTexture("Art/platform.bmp"), this->mainRandomGenerator->GetRandomBetween(0, this->screenW - this->paddleW), -32,this->paddleW, this->paddleH);
+        this->platformSpawnCounter = 0;
+    }
+}
+
+void CPlatformManager::UpdatePlatforms(double delta)
 {
     for (int i = 0; i < this->platformCatalogue.size(); i ++)
     {
@@ -31,8 +48,7 @@ void CPlatformManager::Update(double delta)
         else
         {
             platformCatalogue[i]->Update(delta);     
-        }
-        
+        } 
     }
 }
 
@@ -50,4 +66,24 @@ void CPlatformManager::RemovePlatform(int index)
     {
         platformCatalogue.erase(platformCatalogue.begin() + index);
     }
+}
+
+void CPlatformManager::SetSpawnTime(unsigned int time)
+{
+    this->platformSpawnTime = time;
+}
+
+void CPlatformManager::SetMaxPlatforms(int amount)
+{
+    this->maxPlatforms = amount;
+}
+
+unsigned int CPlatformManager::GetSpawnTime()
+{
+    return this->platformSpawnTime;
+}
+
+int CPlatformManager::GetMaxPlatforms()
+{
+    return this->maxPlatforms;
 }

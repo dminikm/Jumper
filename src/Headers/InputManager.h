@@ -19,8 +19,8 @@ class CInputManager
         
         bool IsMouseDown(Uint8 button);
         bool IsMouseUp(Uint8 button);
-        Uint8 GetMouseDown();
-        Uint8 GetMouseUp();
+        Uint8 GetMousePressed();
+        Uint8 GetMouseReleased();
         
         void GetMousePos(int* x, int* y);
 };

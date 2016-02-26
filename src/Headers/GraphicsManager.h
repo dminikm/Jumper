@@ -4,6 +4,7 @@
 #include "SDL2/SDL.h"
 #include <vector>
 #include <iostream>
+#include "TextureManager.h"
 
 
 struct RenderTarget {
@@ -22,9 +23,10 @@ class CGraphicsManager
         
         SDL_Renderer* mainGameRenderer;
         SDL_Window* mainGameWindow;
+        CTextureManager* mainTextureManager;
         
     public:
-        CGraphicsManager(SDL_Renderer* renderer, SDL_Window* window);
+        CGraphicsManager(SDL_Renderer* renderer, SDL_Window* window, CTextureManager* textureManager);
         ~CGraphicsManager();
         
         void CreateRenderTarget(SDL_Texture* texture, SDL_Rect rect, double angle, SDL_Point* centre, unsigned int depth, SDL_RendererFlip flip);
@@ -35,5 +37,6 @@ class CGraphicsManager
         
         SDL_Renderer* GetRenderer();
         SDL_Window* GetWindow();
+        CTextureManager* GetTextureManager();
 };
 #endif

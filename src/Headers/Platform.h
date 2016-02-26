@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include "GraphicsManager.h"
+#include "RandomGenerator.h"
 
 class CPlatform 
 {
@@ -19,7 +20,7 @@ class CPlatform
     int velocity;
     
     public:
-    CPlatform(SDL_Texture* texture, double x, double y, double w, double h);
+    CPlatform(SDL_Texture* texture, double x, double y, double w, double h, CRandomGenerator* randomGenerator);
     ~CPlatform();
     
     void Update(double delta);

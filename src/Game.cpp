@@ -28,11 +28,13 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
         return 1;
     }
     
+    this->mainRandomGenerator = new CRandomGenerator();
     this->mainTextureManager = new CTextureManager(this->mainGameRenderer);
-    this->mainGraphicsManager = new CGraphicsManager(this->mainGameRenderer, this->mainGameWindow);
-    this->mainPlatformManager = new CPlatformManager(this->mainGraphicsManager);
+    this->mainGraphicsManager = new CGraphicsManager(this->mainGameRenderer, this->mainGameWindow, this->mainTextureManager);
+    this->mainPlatformManager = new CPlatformManager(this->mainGraphicsManager, this->mainRandomGenerator);
     this->mainInputManager = new CInputManager(&this->mainGameEvent);
-
+    
+    
     this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
     
     this->running = true;
