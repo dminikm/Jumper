@@ -39,3 +39,14 @@ bool CPlatform::IsBelowScreen(SDL_Window* window)
     
     return this->y > winH;
 }
+
+SDL_Rect CPlatform::GetRect()
+{
+    SDL_Rect rect;
+    rect.x = this->x;
+    rect.y = this->y;
+    rect.w = this->w;
+    rect.h = this->h;
+    
+    return rect;
+}

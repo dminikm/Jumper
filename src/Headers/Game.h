@@ -13,7 +13,10 @@
 #include "PlatformManager.h"
 #include "InputManager.h"
 #include "RandomGenerator.h"
-
+#include "Player.h"
+#include "FontManager.h"
+#include "ButtonManager.h"
+#include "Menu.h"
 
 #undef main
 
@@ -35,12 +38,25 @@ class CGame
         CPlatformManager* mainPlatformManager;
         CInputManager* mainInputManager;
         CRandomGenerator* mainRandomGenerator;
+        CPlayer* mainPlayer;
+        CFontManager* mainFontManager;
+        CButtonManager* mainButtonManager;
+        CMenu* mainMenu;
+        
+        
         
         unsigned int deltaLast = 0;
         unsigned int deltaNow = 0;
         double delta = 0;
-        
+
         bool running;
+        
+        int gameState;
+        const int gameIntro = 0;
+        const int gameMenu = 1;
+        const int gameMenuInit = 2;
+        const int gameInit = 3;
+        const int gamePlay = 4;
     public:
         CGame();
         ~CGame();

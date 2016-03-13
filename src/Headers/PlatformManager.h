@@ -38,12 +38,15 @@ class CPlatformManager
         void Draw();
         
         void RemovePlatform(int index);
+        void RemoveAllPlatforms();
         
         void SetSpawnTime(unsigned int time);
         void SetMaxPlatforms(int amount);
         
         unsigned int GetSpawnTime();
         int GetMaxPlatforms();
+        
+        std::vector<CPlatform*> GetPlatformCatalogue();
 };
 
 #endif

@@ -1,14 +1,15 @@
 #include "Headers/TextureManager.h"
 
-CTextureManager::CTextureManager(SDL_Renderer* renderer)
+CTextureManager::CTextureManager(SDL_Renderer* renderer, CRandomGenerator* randomGenerator)
 {
     this->mainGameRenderer = renderer;
+    this->mainRandomGenerator = randomGenerator;
     this->CreateTexture("GimmieDatDefault");
 }
 
 CTextureManager::~CTextureManager()
 {
-    
+    this->RemoveAllTextures();
 }
 
 SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
@@ -36,10 +37,10 @@ SDL_Texture* CTextureManager::CreateTexture(std::string fileName)
             #endif
             
             surfaceBuffer = SDL_CreateRGBSurface(0,1,1,32,rmask,gmask,bmask,amask);
-            SDL_FillRect(surfaceBuffer, NULL, SDL_MapRGB(surfaceBuffer->format, 255, 0, 0));
+            SDL_FillRect(surfaceBuffer, NULL, SDL_MapRGB(surfaceBuffer->format, this->mainRandomGenerator->GetRandomBetween(0,255), this->mainRandomGenerator->GetRandomBetween(0,255), this->mainRandomGenerator->GetRandomBetween(0,255)));
         }
         
-        SDL_SetColorKey(surfaceBuffer, SDL_TRUE, SDL_MapRGB(surfaceBuffer->format, 255, 255, 255));
+        //SDL_SetColorKey(surfaceBuffer, SDL_TRUE, SDL_MapRGB(surfaceBuffer->format, 255, 255, 255));
         
         textureBuffer = SDL_CreateTextureFromSurface(this->mainGameRenderer, surfaceBuffer);
         this->textureCatalogue.push_back(textureBuffer);
@@ -121,4 +122,10 @@ void CTextureManager::RemoveAllTextures()
         SDL_DestroyTexture(this->textureCatalogue[i]);
     }
     this->textureCatalogue.resize(0);
+}
+
+void CTextureManager::AddTexture(SDL_Texture* texture, std::string textureName)
+{
+    this->textureCatalogue.push_back(texture);
+    this->textureCatalogueFileNames.push_back(textureName);
 }

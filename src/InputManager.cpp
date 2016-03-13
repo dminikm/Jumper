@@ -3,6 +3,7 @@
 CInputManager::CInputManager(SDL_Event* event)
 {
     this->mainGameEvent = event;
+    this->mouseButtonStates.resize(5);
 }
 
 CInputManager::~CInputManager()
@@ -48,12 +49,20 @@ SDL_Scancode CInputManager::GetReleasedKey()
 
 bool CInputManager::IsMouseDown(Uint8 button)
 {
-    return (this->mainGameEvent->type == SDL_MOUSEBUTTONDOWN && this->mainGameEvent->button.button == button);
+    if (button > this->mouseButtonStates.size())
+    {
+        this->mouseButtonStates.resize(button + 1);
+    }
+    return this->mouseButtonStates[button];
 }
 
 bool CInputManager::IsMouseUp(Uint8 button)
 {
-    return (this->mainGameEvent->type == SDL_MOUSEBUTTONUP && this->mainGameEvent->button.button == button);
+    if (button > this->mouseButtonStates.size())
+    {
+        this->mouseButtonStates.resize(button + 1);
+    }
+    return !this->mouseButtonStates[button];
 }
 
 Uint8 CInputManager::GetMousePressed()
@@ -80,7 +89,28 @@ Uint8 CInputManager::GetMouseReleased()
     }
 }
 
-void GetMousePos(int* x, int* y)
+void CInputManager::GetMousePos(int* x, int* y)
 {
     SDL_GetMouseState(x, y);
+}
+
+void CInputManager::Update()
+{
+    for (int i = 0; i < this->mouseButtonStates.size(); i++)
+    {
+        if (this->mouseButtonStates[i])
+        {
+            if (this->GetMouseReleased() == i)
+            {
+                this->mouseButtonStates[i] = false;
+            }
+        }
+        else
+        {
+            if (this->GetMousePressed() == i)
+            {
+                this->mouseButtonStates[i] = true;
+            }
+        }
+    }
 }

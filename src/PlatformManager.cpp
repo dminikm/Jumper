@@ -15,14 +15,14 @@ CPlatformManager::~CPlatformManager()
 {
     for (int i = 0; i < this->platformCatalogue.size(); i ++)
     {
-        platformCatalogue[i]->~CPlatform();
+        this->platformCatalogue[i]->~CPlatform();
     }
 }
 
 void CPlatformManager::CreatePlatform(SDL_Texture* texture, double x, double y, double w, double h)
 {
     CPlatform* platform = new CPlatform(texture, x, y, w, h, this->mainRandomGenerator);
-    platformCatalogue.push_back(platform);
+    this->platformCatalogue.push_back(platform);
 }
 
 void CPlatformManager::Update(double delta)
@@ -47,7 +47,7 @@ void CPlatformManager::UpdatePlatforms(double delta)
         }
         else
         {
-            platformCatalogue[i]->Update(delta);     
+            this->platformCatalogue[i]->Update(delta);     
         } 
     }
 }
@@ -56,7 +56,7 @@ void CPlatformManager::Draw()
 {
     for (int i = 0; i < this->platformCatalogue.size(); i ++)
     {
-        platformCatalogue[i]->Draw(this->mainGraphicsManager);
+        this->platformCatalogue[i]->Draw(this->mainGraphicsManager);
     }
 }
 
@@ -64,8 +64,18 @@ void CPlatformManager::RemovePlatform(int index)
 {
     if (index < this->platformCatalogue.size() && index >= 0)
     {
-        platformCatalogue.erase(platformCatalogue.begin() + index);
+        this->platformCatalogue[index]->~CPlatform();
+        this->platformCatalogue.erase(this->platformCatalogue.begin() + index);
     }
+}
+
+void CPlatformManager::RemoveAllPlatforms()
+{
+    for (int i = 0; i < this->platformCatalogue.size(); i++)
+    {
+        this->platformCatalogue[i]->~CPlatform();
+    }
+    this->platformCatalogue.resize(0);
 }
 
 void CPlatformManager::SetSpawnTime(unsigned int time)
@@ -86,4 +96,9 @@ unsigned int CPlatformManager::GetSpawnTime()
 int CPlatformManager::GetMaxPlatforms()
 {
     return this->maxPlatforms;
+}
+
+std::vector<CPlatform*> CPlatformManager::GetPlatformCatalogue()
+{
+    return this->platformCatalogue;
 }

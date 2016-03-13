@@ -1,9 +1,9 @@
 CXX = g++
-OUTPUT = Debug/game
+OUTPUT = Debug/game 
 SOURCES = $(wildcard src/*.cpp)
 CURRENT_DIR = $(shell chdir)
-INCLUDE = -ISDL\x86_64-w64-mingw32\include -LSDL\x86_64-w64-mingw32\lib
-FLAGS = -lSDL2 -lSDL2main -pthread -std=c++11
+INCLUDE = -ISDL\i686-w64-mingw32\include -LSDL\i686-w64-mingw32\lib
+FLAGS = -lSDL2 -lSDL2main -pthread -std=c++11 -lmingw32 
 
 $(OUTPUT):
 	$(CXX) $(INCLUDE) $(SOURCES) $(FLAGS) -o $(OUTPUT)
