@@ -33,6 +33,7 @@ CButton* CButtonManager::CreateButton(double x, double y, double w, double h, SD
 {
     CButton* button = new CButton(x,y,w,h,normalTexture,pressedTexture,hoverTexture);
     this->buttonCatalogue.push_back(button);
+    return this->buttonCatalogue[this->buttonCatalogue.size() - 1];
 }
 
 void CButtonManager::RemoveAllButtons()

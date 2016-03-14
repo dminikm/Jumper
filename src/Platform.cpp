@@ -50,3 +50,8 @@ SDL_Rect CPlatform::GetRect()
     
     return rect;
 }
+
+int CPlatform::GetVelocity()
+{
+    return this->velocity;
+}

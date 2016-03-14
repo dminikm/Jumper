@@ -24,6 +24,7 @@ class CPlatform
     ~CPlatform();
     
     SDL_Rect GetRect();
+    int GetVelocity();
     void Update(double delta);
     void Draw(CGraphicsManager* graphicsManager);
     

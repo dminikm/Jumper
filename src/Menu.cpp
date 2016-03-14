@@ -21,12 +21,12 @@ void CMenu::Init(SDL_Texture* background, SDL_Texture* playButton, SDL_Texture* 
     SDL_GetWindowSize(this->mainGraphicsManager->GetWindow(),&w,&h);
     
     this->mainGraphicsManager->SetBackground(background);
-    this->playButton = this->mainButtonManager->CreateButton((w / 2) - (playButtonW / 2), (h / 2) - (playButtonH / 2) + 64, playButtonW, playButtonH, playButton, playButtonPressed, playButtonHover);
+    this->playButton = this->mainButtonManager->CreateButton((w / 2) - (playButtonW / 2), (h / 2) - (playButtonH / 2) + 92, playButtonW, playButtonH, playButton, playButtonPressed, playButtonHover);
 }
 
 bool CMenu::Update()
 {
-    return this->playButton->GetPressed();
+    return this->playButton->GetReleased(this->mainInputManager);
 }
 
 void CMenu::Draw()

@@ -44,7 +44,7 @@ void CButton::Draw(CGraphicsManager* graphicsManager)
         (int)this->w,
         (int)this->h
     };
-    std::cout << rect.y << std::endl;
+    
     if (!this->pressed && !this->hover)
     {
         graphicsManager->CreateRenderTarget(this->normalTexture, rect);
@@ -106,4 +106,18 @@ bool CButton::GetPressed()
 bool CButton::GetHover()
 {
     return this->hover;
+}
+
+bool CButton::GetReleased(CInputManager* inputManager)
+{
+    int mousex;
+    int mousey;
+    
+    inputManager->GetMousePos(&mousex, &mousey);
+    
+    if (CCollisionManager::GetCollision(mousex, mousey, 1, 1, this->x, this->y, this->w, this->h) && inputManager->GetMouseReleased() == 1)
+    {
+        return true;
+    }
+    return false;
 }

@@ -66,7 +66,10 @@ void CGame::Run()
     {
         if (this->gameState == this->gameMenuInit)
         {
-            this->mainMenu->Init(this->mainTextureManager->CreateTexture("Art/background.bmp"),this->mainTextureManager->CreateTexture("Art/a.bmp"),this->mainTextureManager->CreateTexture("Art/b.bmp"),this->mainTextureManager->CreateTexture("Art/c.bmp"),64, 64);
+            this->mainButtonManager->RemoveAllButtons();
+            this->mainPlatformManager->RemoveAllPlatforms();
+            this->mainPlayer->DespawnPlayer();
+            this->mainMenu->Init(this->mainTextureManager->CreateTexture("Art/menubackground.bmp"),this->mainTextureManager->CreateTexture("Art/start.bmp"),this->mainTextureManager->CreateTexture("Art/startpressed.bmp"),this->mainTextureManager->CreateTexture("Art/starthover.bmp"),64, 64);
             this->gameState = this->gameMenu;
         }
         if (this->gameState == this->gameMenu)
@@ -80,8 +83,10 @@ void CGame::Run()
             this->mainInputManager->Update();
             this->mainButtonManager->Update();
             
-            std::cout << this->mainMenu->Update() << std::endl;
-            
+            if (this->mainMenu->Update())
+            {
+                this->gameState = this->gameInit;
+            }
             
             this->mainMenu->Draw();
             this->Draw();
@@ -94,6 +99,7 @@ void CGame::Run()
             this->mainPlatformManager->CreatePlatform(this->mainTextureManager->CreateTexture("Art/platform.bmp"), ((this->mainGraphicsManager->GetWindowWidth() / 2) - this->mainPlayer->GetPlayerRect().w / 2) - 64, ((this->mainGraphicsManager->GetWindowHeight() / 2) - this->mainPlayer->GetPlayerRect().h / 2) + 128, 128, 32);
             this->mainPlatformManager->CreatePlatform(this->mainTextureManager->CreateTexture("Art/platform.bmp"), this->mainRandomGenerator->GetRandomBetween(0, this->mainGraphicsManager->GetWindowWidth() - 128), 140, 128, 32);
             this->mainPlatformManager->CreatePlatform(this->mainTextureManager->CreateTexture("Art/platform.bmp"), this->mainRandomGenerator->GetRandomBetween(0, this->mainGraphicsManager->GetWindowWidth() - 128), 25, 128, 32);
+            this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
             this->gameState = this->gamePlay;
             
             
@@ -126,9 +132,9 @@ void CGame::Update()
     this->mainPlayer->Update(this->delta);
     this->mainPlatformManager->Update(this->delta);
     
-    if (this->mainPlayer->GetPlayerRect().y + this->mainPlayer->GetPlayerRect().h + 1 > this->winHeight)
+    if (this->mainPlayer->GetPlayerRect().y + this->mainPlayer->GetPlayerRect().h + 1 > this->winHeight || this->mainInputManager->IsKeyDown(SDL_SCANCODE_ESCAPE))
     {
-        this->gameState = this->gameInit;
+        this->gameState = this->gameMenuInit;
     }
     
 }

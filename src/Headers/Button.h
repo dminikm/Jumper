@@ -30,6 +30,7 @@ class CButton
         
         SDL_Rect GetRect();
         bool GetPressed();
+        bool GetReleased(CInputManager* inputManager);
         bool GetHover();
 };
 
