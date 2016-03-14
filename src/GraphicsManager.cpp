@@ -83,3 +83,18 @@ CTextureManager* CGraphicsManager::GetTextureManager()
 {
     return this->mainTextureManager;
 }
+
+int CGraphicsManager::GetWindowWidth()
+{
+    int w;
+    SDL_GetWindowSize(this->mainGameWindow, &w, NULL);
+    return w;
+}
+
+int CGraphicsManager::GetWindowHeight()
+{
+    int h;
+    SDL_GetWindowSize(this->mainGameWindow, NULL, &h);
+    return h;
+}
+

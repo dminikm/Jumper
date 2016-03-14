@@ -3,14 +3,20 @@
 #define INPUTMANAGER_H
 
 #include "SDL2/SDL.h"
+#include <iostream>
+#include <vector>
 
 class CInputManager 
 {
     private:
         SDL_Event* mainGameEvent;
+        
+        std::vector<bool> mouseButtonStates;
     public:
         CInputManager(SDL_Event* event);
         ~CInputManager();
+        
+        void Update();
         
         bool IsKeyDown(SDL_Scancode key);
         bool IsKeyUp(SDL_Scancode key);

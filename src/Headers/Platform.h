@@ -23,6 +23,8 @@ class CPlatform
     CPlatform(SDL_Texture* texture, double x, double y, double w, double h, CRandomGenerator* randomGenerator);
     ~CPlatform();
     
+    SDL_Rect GetRect();
+    int GetVelocity();
     void Update(double delta);
     void Draw(CGraphicsManager* graphicsManager);
     
