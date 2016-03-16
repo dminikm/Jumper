@@ -7,6 +7,7 @@ CFontManager::CFontManager(CGraphicsManager* graphicsManager, SDL_Texture* numer
     this->mainGameWindow = this->mainGraphicsManager->GetWindow();
     this->mainGameRenderer = this->mainGraphicsManager->GetRenderer();
     this->numSheet = numericSheet;
+    this->targetTexture = numericSheet;
 }
 
 CFontManager::~CFontManager()

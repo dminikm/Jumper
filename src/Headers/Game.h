@@ -17,6 +17,7 @@
 #include "FontManager.h"
 #include "ButtonManager.h"
 #include "Menu.h"
+#include "SoundManager.h"
 
 #undef main
 
@@ -33,6 +34,7 @@ class CGame
         int winWidth;
         int winHeight; 
         
+        CSoundManager* mainSoundManager;
         CTextureManager* mainTextureManager;
         CGraphicsManager* mainGraphicsManager;
         CPlatformManager* mainPlatformManager;

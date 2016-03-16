@@ -1,14 +1,16 @@
 #include "Headers/Player.h"
 
-CPlayer::CPlayer(CGraphicsManager* graphicsManager, CInputManager* inputManager, CPlatformManager* platformManager)
+CPlayer::CPlayer(CGraphicsManager* graphicsManager, CInputManager* inputManager, CPlatformManager* platformManager, CSoundManager* soundManager)
 {
     this->mainGraphicsManager = graphicsManager;
     this->mainInputManager = inputManager;
     this->mainPlatformManager = platformManager;
+    this->mainSoundManager = soundManager;
     this->playerSprite = this->mainGraphicsManager->GetTextureManager()->CreateTexture("Art/player.bmp");
     this->playerSpriteJump = this->mainGraphicsManager->GetTextureManager()->CreateTexture("Art/playerjump.bmp");
     this->flipLeft = false;
     this->active = false;
+    this->jumpSound = this->mainSoundManager->CreateSound("Sound/jump.wav");
 }
 
 CPlayer::~CPlayer()
@@ -201,6 +203,7 @@ void CPlayer::HandleCollision()
                 this->velocityY = - 160;
                 this->jumping = true;
                 this->jumpTimeCounter = 0;
+                this->mainSoundManager->PlaySound(this->jumpSound);
             }
         }
     }

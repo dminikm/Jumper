@@ -12,6 +12,8 @@
 #include "CollisionManager.h"
 #include "Platform.h"
 #include "PlatformManager.h"
+#include "SoundManager.h"
+#include "Sound.h"
 
 class CPlayer
 {
@@ -19,9 +21,12 @@ class CPlayer
         CGraphicsManager* mainGraphicsManager;
         CInputManager* mainInputManager;
         CPlatformManager* mainPlatformManager;
+        CSoundManager* mainSoundManager;
         
         SDL_Texture* playerSprite;
         SDL_Texture* playerSpriteJump;
+        
+        CSound* jumpSound;
         
         bool flipLeft;
         
@@ -51,7 +56,7 @@ class CPlayer
         void ApplyGravity(double delta);
         void HandleCollision();
     public:
-        CPlayer(CGraphicsManager* graphicsManager, CInputManager* inputManager, CPlatformManager* platformManager);
+        CPlayer(CGraphicsManager* graphicsManager, CInputManager* inputManager, CPlatformManager* platformManager, CSoundManager* soundManager);
         ~CPlayer();
         
         void Update(double delta);

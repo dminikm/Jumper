@@ -7,6 +7,7 @@ CGame::CGame()
 
 CGame::~CGame()
 {
+    this->mainSoundManager->~CSoundManager();
     this->mainRandomGenerator->~CRandomGenerator();
     this->mainTextureManager->~CTextureManager();
     this->mainGraphicsManager->~CGraphicsManager();
@@ -14,6 +15,11 @@ CGame::~CGame()
     this->mainInputManager->~CInputManager();
     this->mainPlayer->~CPlayer();
     this->mainFontManager->~CFontManager();
+    this->mainButtonManager->~CButtonManager();
+    this->mainMenu->~CMenu();
+    SDL_DestroyWindow(this->mainGameWindow);
+    SDL_DestroyRenderer(this->mainGameRenderer);
+    SDL_Quit();
 }
 
 int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
@@ -24,7 +30,7 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
     this->winWidth = resX;
     this->winHeight = resY;
     
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER );
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_VIDEO);
     this->mainGameWindow = SDL_CreateWindow(this->gameName.c_str(), this->winPosX, this->winPosY, this->winWidth, this->winHeight, SDL_WINDOW_SHOWN);
     this->mainGameEvent = SDL_Event();
     this->mainGameRenderer = SDL_CreateRenderer(this->mainGameWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
@@ -34,17 +40,21 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
         return 1;
     }
     
+    
+    this->mainSoundManager = new CSoundManager(4);
     this->mainRandomGenerator = new CRandomGenerator();
     this->mainTextureManager = new CTextureManager(this->mainGameRenderer, this->mainRandomGenerator);
     this->mainGraphicsManager = new CGraphicsManager(this->mainGameRenderer, this->mainGameWindow, this->mainTextureManager);
     this->mainPlatformManager = new CPlatformManager(this->mainGraphicsManager, this->mainRandomGenerator);
     this->mainInputManager = new CInputManager(&this->mainGameEvent);
-    this->mainPlayer = new CPlayer(this->mainGraphicsManager, this->mainInputManager, this->mainPlatformManager);
+    this->mainPlayer = new CPlayer(this->mainGraphicsManager, this->mainInputManager, this->mainPlatformManager, this->mainSoundManager);
     this->mainFontManager = new CFontManager(this->mainGraphicsManager, this->mainTextureManager->CreateTexture("Art/numsheet.bmp"));
     this->mainButtonManager = new CButtonManager(this->mainGraphicsManager, this->mainInputManager);
     this->mainMenu = new CMenu(this->mainGraphicsManager, this->mainInputManager, this->mainButtonManager);
     
     this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
+    
+    this->mainSoundManager->PlaySound(this->mainSoundManager->CreateSound("Sound/backgroundmusic.wav"), -1);
     
     this->running = true;
     this->gameState = this->gameMenuInit;
@@ -55,13 +65,10 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
 void CGame::End()
 {
     this->running = false;
-    SDL_DestroyWindow(this->mainGameWindow);
-    SDL_DestroyRenderer(this->mainGameRenderer);
-    SDL_Quit();
 }
 
 void CGame::Run()
-{  
+{
     while (this->running)
     {
         if (this->gameState == this->gameMenuInit)
