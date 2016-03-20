@@ -17,6 +17,7 @@ CGame::~CGame()
     this->mainFontManager->~CFontManager();
     this->mainButtonManager->~CButtonManager();
     this->mainMenu->~CMenu();
+    this->mainScoreManager->~CScoreManager();
     SDL_DestroyWindow(this->mainGameWindow);
     SDL_DestroyRenderer(this->mainGameRenderer);
     SDL_Quit();
@@ -51,6 +52,8 @@ int CGame::Init(std::string gameName, int posX, int posY, int resX, int resY)
     this->mainFontManager = new CFontManager(this->mainGraphicsManager, this->mainTextureManager->CreateTexture("Art/numsheet.bmp"));
     this->mainButtonManager = new CButtonManager(this->mainGraphicsManager, this->mainInputManager);
     this->mainMenu = new CMenu(this->mainGraphicsManager, this->mainInputManager, this->mainButtonManager);
+    this->mainScoreManager = new CScoreManager(this->mainGraphicsManager, this->mainFontManager, this->mainTextureManager->CreateTexture("Art/time.bmp"), 5);
+    this->mainGameOver = new CGameOver(this->mainGraphicsManager, this->mainButtonManager, this->mainFontManager);
     
     this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
     
@@ -107,16 +110,46 @@ void CGame::Run()
             this->mainPlatformManager->CreatePlatform(this->mainTextureManager->CreateTexture("Art/platform.bmp"), this->mainRandomGenerator->GetRandomBetween(0, this->mainGraphicsManager->GetWindowWidth() - 128), 140, 128, 32);
             this->mainPlatformManager->CreatePlatform(this->mainTextureManager->CreateTexture("Art/platform.bmp"), this->mainRandomGenerator->GetRandomBetween(0, this->mainGraphicsManager->GetWindowWidth() - 128), 25, 128, 32);
             this->mainGraphicsManager->SetBackground(this->mainTextureManager->CreateTexture("Art/background.bmp"), true, 0, SDL_FLIP_NONE);
-            this->gameState = this->gamePlay;
-            
-            
+            this->mainScoreManager->Start();
+            this->deltaNow = SDL_GetTicks();
+            this->deltaLast = SDL_GetTicks();
+            this->gameState = this->gamePlay;          
         }
         if (this->gameState == this->gamePlay)
         {
             this->Update();
             this->Draw();
         }
-        
+        if (this->gameState == this->gameOverInit)
+        {
+            this->mainPlatformManager->RemoveAllPlatforms();
+            this->mainPlayer->DespawnPlayer();
+            this->gameState = this->gameOver;
+        }
+        if (this->gameState == this->gameOver)
+        {
+            SDL_PollEvent(&this->mainGameEvent);
+            if (this->mainGameEvent.type == SDL_QUIT)
+            {
+                this->End();
+            }
+            
+            this->mainInputManager->Update();
+            this->mainButtonManager->Update();
+            
+            int state = this->mainGameOver->Update();
+            if (state == 0)
+            {
+                this->gameState = this->gameMenuInit;
+            }
+            else if (state == 1)
+            {
+                this->gameState = this->gameInit;
+            }
+            
+            this->mainGameOver->Draw();
+            this->Draw();
+        }
     }
 }
 
@@ -126,7 +159,6 @@ void CGame::Update()
     this->delta = (double)(((double)this->deltaNow - (double)this->deltaLast) / 1000);
     this->deltaLast = this->deltaNow;
 
-    
     SDL_PollEvent(&this->mainGameEvent);
     this->mainInputManager->Update();
     
@@ -135,13 +167,15 @@ void CGame::Update()
         this->End();
     }
     
-    
+    this->mainScoreManager->Update(this->delta);
     this->mainPlayer->Update(this->delta);
     this->mainPlatformManager->Update(this->delta);
     
     if (this->mainPlayer->GetPlayerRect().y + this->mainPlayer->GetPlayerRect().h + 1 > this->winHeight || this->mainInputManager->IsKeyDown(SDL_SCANCODE_ESCAPE))
     {
-        this->gameState = this->gameMenuInit;
+        this->mainScoreManager->Stop();
+        this->mainGameOver->Init(this->mainScoreManager->GetScore(), this->mainTextureManager->CreateTexture("Art/time.bmp"), this->mainTextureManager->CreateTexture("Art/menu.bmp"), this->mainTextureManager->CreateTexture("Art/menupressed.bmp"), this->mainTextureManager->CreateTexture("Art/menuhover.bmp"), this->mainTextureManager->CreateTexture("Art/replay.bmp"), this->mainTextureManager->CreateTexture("Art/replaypressed.bmp"), this->mainTextureManager->CreateTexture("Art/replayhover.bmp"));
+        this->gameState = this->gameOverInit;
     }
     
 }
@@ -150,9 +184,11 @@ void CGame::Draw()
 {
     this->mainPlatformManager->Draw();
     this->mainPlayer->Draw();
-    this->mainGraphicsManager->Draw();
     this->mainButtonManager->Draw();
+    this->mainScoreManager->Draw();
+    this->mainGraphicsManager->Draw();
     this->mainGraphicsManager->ClearRenderCatalogue();
     SDL_RenderPresent(this->mainGameRenderer);
     SDL_RenderClear(this->mainGameRenderer);
+    
 }

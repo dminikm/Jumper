@@ -65,3 +65,8 @@ void CButtonManager::RemoveButton(CButton* button)
         }
     }
 }
+
+CInputManager* CButtonManager::GetInputManager()
+{
+    return this->mainInputManager;
+}

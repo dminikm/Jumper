@@ -7,7 +7,7 @@ CFontManager::CFontManager(CGraphicsManager* graphicsManager, SDL_Texture* numer
     this->mainGameWindow = this->mainGraphicsManager->GetWindow();
     this->mainGameRenderer = this->mainGraphicsManager->GetRenderer();
     this->numSheet = numericSheet;
-    this->targetTexture = numericSheet;
+    this->targetTexture = SDL_CreateTexture(this->mainGameRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1, 1);
 }
 
 CFontManager::~CFontManager()
@@ -29,15 +29,16 @@ SDL_Texture* CFontManager::CreateNumTexture(int number)
     std::string numString = this->ConvertIntToString(number);
     Uint32 format;
     int w;
-    int h;
+    int h; 
     
     SDL_QueryTexture(this->numSheet, &format, NULL, &w, &h);
+    
     this->targetTexture = SDL_CreateTexture(this->mainGameRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, numString.size() * (w / 11), h);
     SDL_SetRenderTarget(this->mainGameRenderer, this->targetTexture);
     SDL_SetTextureBlendMode(this->targetTexture, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(this->mainGameRenderer, 0,0,0,0); 
     SDL_RenderClear(this->mainGameRenderer);
-    
+
     SDL_Rect rect1;
     rect1.x = 0;
     rect1.y = 0;
@@ -62,6 +63,6 @@ SDL_Texture* CFontManager::CreateNumTexture(int number)
         SDL_RenderCopy(this->mainGameRenderer, this->numSheet, &rect2, &rect1);
     }
     
-    SDL_SetRenderTarget(this->mainGameRenderer, NULL); 
+    SDL_SetRenderTarget(this->mainGameRenderer, NULL);
     return this->targetTexture;
 }

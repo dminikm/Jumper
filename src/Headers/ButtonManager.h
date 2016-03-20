@@ -28,6 +28,8 @@ class CButtonManager
         void RemoveAllButtons();
         void RemoveButton(int index);
         void RemoveButton(CButton* button);
+        
+        CInputManager* GetInputManager();
 };
 
 #endif

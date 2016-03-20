@@ -18,6 +18,8 @@
 #include "ButtonManager.h"
 #include "Menu.h"
 #include "SoundManager.h"
+#include "ScoreManager.h"
+#include "GameOver.h"
 
 #undef main
 
@@ -44,6 +46,8 @@ class CGame
         CFontManager* mainFontManager;
         CButtonManager* mainButtonManager;
         CMenu* mainMenu;
+        CScoreManager* mainScoreManager;
+        CGameOver* mainGameOver;
         
         
         
@@ -59,6 +63,8 @@ class CGame
         const int gameMenuInit = 2;
         const int gameInit = 3;
         const int gamePlay = 4;
+        const int gameOverInit = 5;
+        const int gameOver = 6;
     public:
         CGame();
         ~CGame();
