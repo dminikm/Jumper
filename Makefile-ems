@@ -1,0 +1,29 @@
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+CC = em++
+TARGET = game.html
+FLAGS = -std=c++14 -O3 -Wall -s USE_SDL=2 -s USE_ZLIB=1 -s USE_OGG=1 -s USE_VORBIS=1 -s TOTAL_MEMORY=256MB -s ASSERTIONS=2 -s WASM=1
+INCLUDE = /home/dminik/Programming/SDL2_mixer/SDL2_mixer/installdir/lib/libSDL2_mixer.so
+INCLUDE_DIR = -I/home/dminik/Programming/SDL2_mixer/SDL2_mixer/installdir/include
+LINK = --preload-file bin/Art@Art --preload-file bin/Sound@Sound
+SRC_DIR = src/
+OUTPUT_DIR = bin/
+BUILD_DIR = build/
+
+SOURCES = $(call rwildcard,$(SRC_DIR),*.cpp)
+OBJECTS = $(patsubst src/%.cpp,build/%.o,$(SOURCES))
+OBJECTS_FINAL = $(addprefix build/,$(notdir $(OBJECTS)))
+
+
+build/%.o: src/%.cpp
+	$(CC) $(FLAGS) -c $< -o $(BUILD_DIR)$(notdir $@) $(INCLUDE_DIR)
+
+all: $(OBJECTS)
+	$(CC) $(INCLUDE) $(FLAGS) $(OBJECTS_FINAL) -o $(OUTPUT_DIR)$(TARGET) $(INCLUDE_DIR) $(LINK)
+
+init:
+	mkdir bin
+	mkdir build
+	mkdir dependencies
+
+print-%  : ; @echo $* = $($*)

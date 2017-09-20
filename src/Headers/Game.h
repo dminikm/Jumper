@@ -58,7 +58,7 @@ class CGame
         bool running;
         
         int gameState;
-        const int gameIntro = 0;
+        //const int gameIntro = 0;
         const int gameMenu = 1;
         const int gameMenuInit = 2;
         const int gameInit = 3;
@@ -75,6 +75,11 @@ class CGame
         
         void Update();
         void Draw();
+
+#ifdef __EMSCRIPTEN__
+        void SingleIteration();
+        friend void WebLoopIteration(void* arg);
+#endif
 };
 
 #endif

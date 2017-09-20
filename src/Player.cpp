@@ -132,7 +132,7 @@ void CPlayer::HandleSprite(double delta)
     {
         this->flipLeft = false;
     }
-    if (this->jumping = true)
+    if (this->jumping == true)
     {
         this->jumpTimeCounter += delta;
     }

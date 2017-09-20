@@ -61,7 +61,9 @@ bool CTextureManager::RemoveTexture(std::string fileName)
         SDL_DestroyTexture(this->textureCatalogue[textureID]);
         this->textureCatalogue.erase(this->textureCatalogue.begin() + textureID);
         this->textureCatalogueFileNames.erase(this->textureCatalogueFileNames.begin() + textureID);
+        return true;
     }
+    return false;
 }
 
 SDL_Texture* CTextureManager::FindTexture(std::string fileName)

@@ -52,6 +52,8 @@ CSound* CSoundManager::FindSound(std::string fileName)
             return this->soundCatalogue[i];
         }
     }
+
+    return NULL;
 }
 
 CSound* CSoundManager::FindSound(Mix_Chunk* chunk)
@@ -63,6 +65,8 @@ CSound* CSoundManager::FindSound(Mix_Chunk* chunk)
             return this->soundCatalogue[i];
         }
     }
+
+    return NULL;
 }
 
 bool CSoundManager::IsSoundPlaying(CSound* sound)

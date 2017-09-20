@@ -1,4 +1,11 @@
 #include "Headers/Game.h"
+#ifdef __EMSCRIPTEN__
+
+void WebLoopIteration(void* arg);
+#include <emscripten/emscripten.h>
+#endif
+
+
 
 CGame::CGame()
 {
@@ -72,8 +79,16 @@ void CGame::End()
 
 void CGame::Run()
 {
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop_arg(WebLoopIteration, (void*)this, 0, 1);
+}
+
+void CGame::SingleIteration()
+{
+#else
     while (this->running)
     {
+#endif
         if (this->gameState == this->gameMenuInit)
         {
             this->mainButtonManager->RemoveAllButtons();
@@ -150,7 +165,11 @@ void CGame::Run()
             this->mainGameOver->Draw();
             this->Draw();
         }
+
+#ifdef __EMSCRIPTEN__
+    {
     }
+#endif
 }
 
 void CGame::Update()
@@ -182,13 +201,18 @@ void CGame::Update()
 
 void CGame::Draw()
 {
+    SDL_RenderClear(this->mainGameRenderer);
     this->mainPlatformManager->Draw();
     this->mainPlayer->Draw();
     this->mainButtonManager->Draw();
     this->mainScoreManager->Draw();
     this->mainGraphicsManager->Draw();
     this->mainGraphicsManager->ClearRenderCatalogue();
-    SDL_RenderPresent(this->mainGameRenderer);
-    SDL_RenderClear(this->mainGameRenderer);
-    
+    SDL_RenderPresent(this->mainGameRenderer);   
+}
+
+void WebLoopIteration(void* arg)
+{
+    CGame* gm = (CGame*)arg;
+    gm->SingleIteration();
 }

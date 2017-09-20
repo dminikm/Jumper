@@ -32,3 +32,8 @@ Debug/
 Release/
 SDL/
 Sprites/
+dependencies/
+data/
+build/
+bin/
+.vscode/
